@@ -32,7 +32,7 @@ class Main implements KeyListener {
     static List<Particle> particles = new ArrayList<Particle>();
     static Particle current = null;
 
-    static final double GRAV = 6.6743 * Math.pow(10, -5);
+    static final double GRAV = 6.6743 * Math.pow(6.6743, -4);
 
     public static void main(String[] args) {
         canvas.addKeyListener(input); // add a component (input) that will receive keyboard events
@@ -114,10 +114,7 @@ class Main implements KeyListener {
                 particles.add(p);
                 current = p;
                 current.dragged = true;
-                current.vx = 0;
-                current.vy = 0;
-                current.ax = 0;
-                current.ay = 0;
+                System.out.println("dragged criei particula");
             }
         } else {
             current = null;

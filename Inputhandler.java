@@ -35,6 +35,23 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
             if(Main.current.mass >= 200) {
                 Main.current.mass -= 100;
             }
+        } else if(e.getKeyCode() == KeyEvent.VK_DELETE) {
+            Main.particles.remove(Main.current);
+            Main.current = null;
+        } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            int i = Main.particles.indexOf(Main.current);
+            if(i == Main.particles.size() - 1) {
+                Main.current = Main.particles.get(0);
+            } else {
+                Main.current = Main.particles.get(i+1);
+            }
+        } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            int i = Main.particles.indexOf(Main.current);
+            if(i == 0) {
+                Main.current = Main.particles.get(Main.particles.size() - 1);
+            } else {
+                Main.current = Main.particles.get(i-1);
+            }
         }
 
 
@@ -65,6 +82,12 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
             } else {
                 Main.current = p;
                 Main.current.dragged = true;
+                System.out.println("dragged cliquei em cima");
+            }
+        } else if(e.getButton() == 3) {
+            Particle p = Main.mouseIn(e.getPoint());
+            if(p != null) {
+                Main.current = p;
                 Main.current.vx = 0;
                 Main.current.vy = 0;
                 Main.current.ax = 0;
@@ -89,8 +112,7 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Particle p = Main.mouseIn(e.getPoint());
-        if(p != null) {
+        if(Main.current.dragged) {
             Main.moveCurrent(e.getPoint());
         }
     }
@@ -109,16 +131,12 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
     public void mouseReleased(MouseEvent e) {
         if(Main.current != null) {
             Main.current.dragged = false;
+            System.out.println("n ta mais dragged");
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_DELETE) {
-            Main.particles.remove(Main.current);
-            Main.current = null;
-        }
-    }
+    public void keyReleased(KeyEvent e) {}
 
     @Override
     public void keyTyped(KeyEvent e) {}
