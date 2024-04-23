@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
-
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,38 +13,34 @@ import java.awt.Point;
 
 
 class Main {
-    static int WIDTH = 1280, HEIGHT = 720; // frame dimensions
+    static int WIDTH = 1280, HEIGHT = 720;
     static int SCALE = 3;
-    static int tps = 100; // ticks per second the game will run
+    static int tps = 100;
     static int fps = 60;
     static boolean isRunning = true;
     static String state = "Paused";
-
     static Inputhandler input = new Inputhandler();
-    static BufferStrategy bs; // buffer strategy used to draw
-    static Graphics g; // graphic context to draw on buffer
+    static BufferStrategy bs;
+    static Graphics g;
     static Graphics2D g2;
-    static JFrame frame = new JFrame(); // creates window
+    static JFrame frame = new JFrame();
     static Canvas canvas = new Canvas();
-
     static List<Particle> particles = new ArrayList<Particle>();
     static Particle current = null;
-
     static final double GRAV = 6.6743 * Math.pow(6.6743, -4);
 
     public static void main(String[] args) {
-        canvas.addKeyListener(input); // add a component (input) that will receive keyboard events
-        canvas.addMouseListener(input); // add a component (input) that will receive mouse events
-        canvas.addMouseWheelListener(input); // add a component (input) that will receive mouse wheel events
-        canvas.addMouseMotionListener(input); // add a component (input) that will receive mouse motion events
-        canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // set component (canvas) dimension
+        canvas.addKeyListener(input);
+        canvas.addMouseListener(input);
+        canvas.addMouseWheelListener(input);
+        canvas.addMouseMotionListener(input);
+        canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-        frame.add(canvas); // add component (canvas) to frame
+        frame.add(canvas);
         frame.setTitle("Gravity Simulation");
-        frame.pack(); // set frame size to component size (canvas)
-        frame.setLocationRelativeTo(null); // set frame location on the middle of the screen
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // set close operation to kill the program
-        //frame.setResizable(false);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.toFront();
         frame.requestFocus();
@@ -130,14 +125,14 @@ class Main {
     }
 
     public static void render() {
-        bs = canvas.getBufferStrategy(); // get current buffer strategy
+        bs = canvas.getBufferStrategy();
 
-        if(bs == null) { // check if it exists
-            canvas.createBufferStrategy(3); // if not, creates one
-            bs = canvas.getBufferStrategy(); // and get it
+        if(bs == null) {
+            canvas.createBufferStrategy(3);
+            bs = canvas.getBufferStrategy();
         }
 
-        g = bs.getDrawGraphics(); //get graphic context to draw on buffer
+        g = bs.getDrawGraphics();
 
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
