@@ -1,3 +1,3 @@
 # gravity-simulator
 
-A reproduction of an old project I made in python some years ago.
+A remake of an old project I made in python some years ago.
