@@ -32,6 +32,9 @@ class Particle {
     public void tick() {
         double d, dx, dy, theta, a;
 
+        this.ax = 0;
+        this.ay = 0;
+
         for(int i = 0; i < Main.particles.size(); i++) {
             Particle p = Main.particles.get(i);
             
@@ -48,56 +51,60 @@ class Particle {
     
                 a = (Main.GRAV * p.mass) / (d*d);
     
-                if(dx > 0) {
-                    this.ax = a * Math.cos(theta);
+                if(dx >= 0) {
+                    this.ax += a * Math.cos(theta);
                 } else {
-                    this.ax = -(a * Math.cos(theta));
+                    this.ax -= a * Math.cos(theta);
                 }
     
-                if(dy > 0) {
-                    this.ay = a * Math.sin(theta);
+                if(dy >= 0) {
+                    this.ay += a * Math.sin(theta);
                 } else {
-                    this.ay = -(a * Math.sin(theta));
-                }
-    
-                int t = (1000/Main.tps);
-                
-                this.vx += this.ax * t;
-                this.vy += this.ay * t;
-
-                if(this.vx > MAX_SPEED) {
-                    this.vx = MAX_SPEED;
-                }
-
-                if(this.vy > MAX_SPEED) {
-                    this.vx = MAX_SPEED;
-                }
-    
-                this.x += this.vx*t + this.ax*t*t/2;
-                this.y += this.vy*t + this.ay*t*t/2;
-
-                if(this.x + this.radius > Main.frame.getWidth()) {
-                    double excess = this.x + this.radius - Main.frame.getWidth();
-                    this.x -= excess;
-                    this.vx = -Math.abs(this.vx);
-                } else if(this.x - this.radius < 0) {
-                    double excess = this.x - this.radius;
-                    this.x -= excess;
-                    this.vx = Math.abs(this.vx);
-                }
-
-                if(this.y + this.radius > Main.frame.getHeight()) {
-                    double excess = this.y + this.radius - Main.frame.getHeight();
-                    this.y -= excess;
-                    this.vy = -Math.abs(this.vy);
-                } else if(this.y - this.radius < 0) {
-                    double excess = this.y - this.radius;
-                    this.y -= excess;
-                    this.vy = Math.abs(this.vy);
-
+                    this.ay -= a * Math.sin(theta);
                 }
             }
         }
+
+        int t = (1000/Main.tps);
+                
+            this.vx += this.ax * t;
+            this.vy += this.ay * t;
+
+            if(this.vx > MAX_SPEED) {
+                this.vx = MAX_SPEED;
+            } else if(this.vx < -MAX_SPEED) {
+                this.vx = -MAX_SPEED;
+            }
+
+            if(this.vy > MAX_SPEED) {
+                this.vx = MAX_SPEED;
+            } else if(this.vy < -MAX_SPEED) {
+                this.vy = -MAX_SPEED;
+            }
+
+            this.x += this.vx*t + this.ax*t*t/2;
+            this.y += this.vy*t + this.ay*t*t/2;
+
+            if(this.x + this.radius > Main.frame.getWidth()) {
+                double excess = this.x + this.radius - Main.frame.getWidth();
+                this.x -= excess;
+                this.vx = -Math.abs(this.vx);
+            } else if(this.x - this.radius < 0) {
+                double excess = this.x - this.radius;
+                this.x -= excess;
+                this.vx = Math.abs(this.vx);
+            }
+
+            if(this.y + this.radius > Main.frame.getHeight()) {
+                double excess = this.y + this.radius - Main.frame.getHeight();
+                this.y -= excess;
+                this.vy = -Math.abs(this.vy);
+            } else if(this.y - this.radius < 0) {
+                double excess = this.y - this.radius;
+                this.y -= excess;
+                this.vy = Math.abs(this.vy);
+
+            }
     }
 
     public void render() {

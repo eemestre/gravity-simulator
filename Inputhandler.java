@@ -30,27 +30,41 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
                 Main.state = "Paused";
             }
         } else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            Main.current.mass += 100;
+            if(Main.current != null) {
+                Main.current.mass += 100;
+            }
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if(Main.current.mass >= 200) {
-                Main.current.mass -= 100;
+            if(Main.current != null) {
+                if(Main.current.mass >= 200) {
+                    Main.current.mass -= 100;
+                }
             }
         } else if(e.getKeyCode() == KeyEvent.VK_DELETE) {
-            Main.particles.remove(Main.current);
-            Main.current = null;
+            if(Main.current != null) {
+                Main.particles.remove(Main.current);
+                Main.current = null;
+            }
         } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            int i = Main.particles.indexOf(Main.current);
-            if(i == Main.particles.size() - 1) {
-                Main.current = Main.particles.get(0);
+            if(Main.current != null) {
+                int i = Main.particles.indexOf(Main.current);
+                if(i == Main.particles.size() - 1) {
+                    Main.current = Main.particles.get(0);
+                } else {
+                    Main.current = Main.particles.get(i+1);
+                }
             } else {
-                Main.current = Main.particles.get(i+1);
+                Main.current = Main.particles.get(0);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            int i = Main.particles.indexOf(Main.current);
-            if(i == 0) {
-                Main.current = Main.particles.get(Main.particles.size() - 1);
+            if(Main.current != null) {
+                int i = Main.particles.indexOf(Main.current);
+                if(i == 0) {
+                    Main.current = Main.particles.get(Main.particles.size() - 1);
+                } else {
+                    Main.current = Main.particles.get(i-1);
+                }
             } else {
-                Main.current = Main.particles.get(i-1);
+                Main.current = Main.particles.get(0);
             }
         }
 
@@ -82,7 +96,6 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
             } else {
                 Main.current = p;
                 Main.current.dragged = true;
-                System.out.println("dragged cliquei em cima");
             }
         } else if(e.getButton() == 3) {
             Particle p = Main.mouseIn(e.getPoint());
@@ -112,8 +125,10 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(Main.current.dragged) {
-            Main.moveCurrent(e.getPoint());
+        if(Main.current != null) {
+            if(Main.current.dragged) {
+                Main.moveCurrent(e.getPoint());
+            }
         }
     }
 
@@ -129,9 +144,8 @@ class Inputhandler implements KeyListener, MouseListener, MouseWheelListener, Mo
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(Main.current != null) {
+        if(Main.current != null && e.getButton() == 1) {
             Main.current.dragged = false;
-            System.out.println("n ta mais dragged");
         }
     }
 

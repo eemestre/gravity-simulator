@@ -4,8 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.awt.Font;
 import java.awt.Point;
 
 
-class Main implements KeyListener {
+class Main {
     static int WIDTH = 1280, HEIGHT = 720; // frame dimensions
     static int SCALE = 3;
     static int tps = 100; // ticks per second the game will run
@@ -114,7 +113,6 @@ class Main implements KeyListener {
                 particles.add(p);
                 current = p;
                 current.dragged = true;
-                System.out.println("dragged criei particula");
             }
         } else {
             current = null;
@@ -128,9 +126,7 @@ class Main implements KeyListener {
                     particles.get(i).tick();
                 }
             }
-        } else {
-            
-        }
+        } else {}
     }
 
     public static void render() {
@@ -176,21 +172,6 @@ class Main implements KeyListener {
         }
 
         bs.show();
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 }
 
